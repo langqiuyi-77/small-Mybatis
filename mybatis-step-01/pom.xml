@@ -5,29 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.langqyi.small-mybatis</groupId>
-    <artifactId>mybatis-step-00</artifactId>
+    <artifactId>mybatis-step-01</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <dependencies>
-        <!--mybatis核心依赖-->
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-            <version>3.5.10</version>
-        </dependency>
-        <!--引入mysql-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.28</version>
-        </dependency>
 
-        <!--引入Junit-->
+    <dependencies>
+        <!-- javassist依赖 -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.27.0-GA</version>
         </dependency>
     </dependencies>
 
