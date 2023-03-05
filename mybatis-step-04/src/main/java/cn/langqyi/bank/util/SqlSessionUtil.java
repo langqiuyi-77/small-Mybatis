@@ -28,4 +28,5 @@ public class SqlSessionUtil {
     public static SqlSession openSession() {
         return sqlSessionFactory.openSession(); //每一次调用openSession都创建一个新的connection
     }
+
 }
