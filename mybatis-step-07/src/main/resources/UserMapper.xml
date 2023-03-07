@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--想要使用Mybatis自带的getMapper方法要保证namespace=接口包名；id是接口方法名-->
+<mapper namespace="cn.langqyi.mybatis.test.UserDao">
+    <insert id="insertUser">
+        insert into t_user(id,name,password) values(#{id}, #{name}, #{password})
+    </insert>
+
+    <select id="selectUserById" resultType="cn.langqyi.mybatis.test.User">
+        select * from t_user where id = #{id}
+    </select>
+</mapper>
