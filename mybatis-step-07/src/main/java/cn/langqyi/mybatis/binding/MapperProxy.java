@@ -1,5 +1,6 @@
 package cn.langqyi.mybatis.binding;
 
+import cn.langqyi.mybatis.session.Configuration;
 import cn.langqyi.mybatis.session.SqlSession;
 
 import java.lang.reflect.InvocationHandler;
@@ -17,10 +18,12 @@ public class MapperProxy<T> implements InvocationHandler {
 
     private SqlSession sqlSession;
     private final Class<T> mapperInterface;
+    private final Map<Method,MappedMethod> mappedMethods;
 
-    public MapperProxy(SqlSession sqlSession, Class<T> mapperInterface) {
+    public MapperProxy(SqlSession sqlSession, Class<T> mapperInterface, Map<Method,MappedMethod> mappedMethods) {
         this.sqlSession = sqlSession;
         this.mapperInterface = mapperInterface;
+        this.mappedMethods = mappedMethods;
     }
 
     /**
@@ -39,18 +42,16 @@ public class MapperProxy<T> implements InvocationHandler {
                 //直接执行原有方法
                 return method.invoke(this, args);
         } else {
-            //根据不同的类型调用不同的方法
-            String sqlid = method.getDeclaringClass().getName() + "." + method.getName();
-            String sqltype = sqlSession.getSqltype(sqlid);
-            if ("INSERT".equals(sqltype))
-                return sqlSession.insert(sqlid, args);
-            else if ("DELETE".equals(sqltype))
-                return sqlSession.delete(sqlid, args);
-            else if ("UPDATE".equals(sqltype))
-                return sqlSession.update(sqlid, args);
-            else
-                return sqlSession.selectOne(sqlid, args);
-        }
 
+            final MappedMethod mappedMethod = cachedMappedMethod(method);
+            return mappedMethod.execute(sqlSession, args);
+        }
+    }
+
+    //获得缓存中的mappedMethod或者new一个放进缓存
+    private MappedMethod cachedMappedMethod(Method method) {
+        if (mappedMethods.get(method) == null)
+            mappedMethods.put(method, new MappedMethod(method, sqlSession.getConfiguration()));
+        return mappedMethods.get(method);
     }
 }

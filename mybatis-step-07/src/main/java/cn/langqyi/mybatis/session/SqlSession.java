@@ -61,11 +61,9 @@ public interface SqlSession {
     int update(String sqlid, Object parameter);
 
     /**
-     * 传入packagename+id作为sqlid返回sql的类型：是insert还是select等等
-     * insert，update，delete
-     * @param sqlid
+     * 获得Configuration
      * @return
      */
-    String getSqltype(String sqlid);
+    Configuration getConfiguration();
 
 }

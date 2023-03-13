@@ -15,6 +15,6 @@ public class Resources {
      * @return
      */
     public static String classForPackageName(String namespace) throws ClassNotFoundException {
-        return Thread.currentThread().getContextClassLoader().loadClass(namespace).getPackageName();
+        return Thread.currentThread().getContextClassLoader().loadClass(namespace).getPackage().getName();
     }
 }

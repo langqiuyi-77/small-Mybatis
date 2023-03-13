@@ -26,18 +26,27 @@ public class Configuration {
      */
     private Map<String, MappedStatement> mappedStatements;
 
-    public Configuration(Transaction transaction, MapperRegistry mapperRegistry, Map<String, MappedStatement> mappedStatements) {
-        this.transaction = transaction;
-        this.mapperRegistry = mapperRegistry;
-        this.mappedStatements = mappedStatements;
-    }
+//    configuration类真的很复杂，使用建造者模式会好很多
+//    public Configuration(Transaction transaction, MapperRegistry mapperRegistry, Map<String, MappedStatement> mappedStatements) {
+//        this.transaction = transaction;
+//        this.mapperRegistry = mapperRegistry;
+//        this.mappedStatements = mappedStatements;
+//    }
+
+    public static Configuration builder() {return new Configuration();}
+
+    public Configuration Transaction(Transaction transaction) { this.transaction = transaction; return this;}
+
+    public Configuration MapperRegistry(MapperRegistry mapperRegistry) { this.mapperRegistry = mapperRegistry; return this;}
+
+    public Configuration MappedStatements(Map<String, MappedStatement> mappedStatements) { this.mappedStatements = mappedStatements; return this;}
+
+    public Configuration build() {return this;}
 
     public <T> T getMapper(Class<T> type, SqlSession sqlSession) {
         return mapperRegistry.getMapper(type, sqlSession);
     }
 
+    public MappedStatement getMappedStatement(String sqlid) {return mappedStatements.get(sqlid);}
 
-    public String getSqltype(String sqlid) {
-        return mappedStatements.get(sqlid).getSqlType();
-    }
 }
